@@ -1,0 +1,115 @@
+.App {
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  background: #0d1117;
+  color: #fbfbfb;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+h1 {
+  color: #3b82f6;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+.navbar a {
+  color: #f9fafb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #3b82f6;
+}
+
+.search-bar {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #3b82f6;
+  margin-bottom: 15px;
+  width: 60%;
+}
+
+.sort-controls, .filter-controls {
+  margin: 10px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.list-item {
+  background: #1e293b;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  max-width: 600px;
+}
+
+.list-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.gallery-item {
+  background: #1e293b;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.gallery-item img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.detail-view {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.detail-img {
+  width: 100%;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  background: #3b82f6;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2563eb;
+}
