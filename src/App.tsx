@@ -6,6 +6,7 @@ import {
   Link,
   useNavigate,
   useLocation,
+  useParams,
 } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
@@ -42,7 +43,7 @@ const ListView: React.FC<{
   results: MediaData[];
   setResults: React.Dispatch<React.SetStateAction<MediaData[]>>;
 }> = ({ results, setResults }) => {
-  const [apiQuery, setApiQuery] = useState("apollo");
+  const [apiQuery, setApiQuery] = useState("");
   const [filter, setFilter] = useState("");
   const [sortKey, setSortKey] = useState<"title" | "date_created">("title");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -75,7 +76,7 @@ const ListView: React.FC<{
           type="text"
           value={apiQuery}
           onChange={(e) => setApiQuery(e.target.value)}
-          placeholder="Search from NASA API..."
+          placeholder="Search from NASA API"
         />
         <button onClick={() => fetchResults(apiQuery).then(setResults)}>🔍 Fetch</button>
       </div>
@@ -102,7 +103,7 @@ const ListView: React.FC<{
       <ul className="list">
         {paginated.map((item, i) => (
           <li key={i} className="list-item">
-            <Link to={`/details/${item.nasa_id}`} state={{ results, index: i }}>
+            <Link to={`/details/${item.nasa_id}`} state={{ results }}>
               <div className="list-info">
                 <img src={item.thumbnail} alt={item.title} />
                 <h3>{item.title}</h3>
@@ -133,7 +134,7 @@ const GalleryView: React.FC<{
   results: MediaData[];
   setResults: React.Dispatch<React.SetStateAction<MediaData[]>>;
 }> = ({ results, setResults }) => {
-  const [apiQuery, setApiQuery] = useState("apollo");
+  const [apiQuery, setApiQuery] = useState("");
   const [filter, setFilter] = useState("");
   const [filterType, setFilterType] = useState("image");
   const [page, setPage] = useState(1);
@@ -159,7 +160,7 @@ const GalleryView: React.FC<{
           type="text"
           value={apiQuery}
           onChange={(e) => setApiQuery(e.target.value)}
-          placeholder="Search from NASA API..."
+          placeholder="Search from NASA API"
         />
         <button onClick={() => fetchResults(apiQuery).then(setResults)}>🔍 Fetch</button>
       </div>
@@ -183,7 +184,7 @@ const GalleryView: React.FC<{
       <div className="gallery">
         {paginated.map((item, i) => (
           <div key={i} className="gallery-item">
-            <Link to={`/details/${item.nasa_id}`} state={{ results, index: i }}>
+            <Link to={`/details/${item.nasa_id}`} state={{ results }}>
               <img src={item.thumbnail} alt={item.title} />
               <p>{item.title}</p>
             </Link>
@@ -210,10 +211,10 @@ const GalleryView: React.FC<{
 const DetailView: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { results, index } = (location.state as { results: MediaData[]; index: number }) || {
-    results: [],
-    index: 0,
-  };
+  const { nasa_id } = useParams<{ nasa_id: string }>();
+  const { results } = (location.state as { results: MediaData[] }) || { results: [] };
+  
+  const index = results.findIndex(r => r.nasa_id === nasa_id);
   const item = results[index];
 
   if (!item) return <p>Item not found.</p>;
@@ -221,7 +222,7 @@ const DetailView: React.FC = () => {
   const handleNav = (dir: number) => {
     const newIndex = index + dir;
     if (newIndex >= 0 && newIndex < results.length) {
-      navigate(`/details/${results[newIndex].nasa_id}`, { state: { results, index: newIndex } });
+      navigate(`/details/${results[newIndex].nasa_id}`, { state: { results } });
     }
   };
 
