@@ -186,7 +186,6 @@ const GalleryView: React.FC<{
           <div key={i} className="gallery-item">
             <Link to={`/details/${item.nasa_id}`} state={{ results }}>
               <img src={item.thumbnail} alt={item.title} />
-              <p>{item.title}</p>
             </Link>
           </div>
         ))}
