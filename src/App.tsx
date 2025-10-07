@@ -130,13 +130,17 @@ const ListView: React.FC<{
 };
 
 // --- Gallery View ---
+// --- Gallery View ---
 const GalleryView: React.FC<{
   results: MediaData[];
   setResults: React.Dispatch<React.SetStateAction<MediaData[]>>;
 }> = ({ results, setResults }) => {
   const [apiQuery, setApiQuery] = useState("");
   const [filter, setFilter] = useState("");
-  const [filterType, setFilterType] = useState("image");
+  const [filterTypes, setFilterTypes] = useState<{ image: boolean; video: boolean }>({
+    image: true,
+    video: false,
+  });
   const [page, setPage] = useState(1);
   const itemsPerPage = 15;
 
@@ -144,8 +148,12 @@ const GalleryView: React.FC<{
     fetchResults(apiQuery).then(setResults);
   }, [apiQuery, setResults]);
 
+  const activeTypes = Object.entries(filterTypes)
+    .filter(([, v]) => v)
+    .map(([k]) => k);
+
   const filtered = results
-    .filter((r) => r.media_type === filterType)
+    .filter((r) => (activeTypes.length ? activeTypes.includes(r.media_type) : true))
     .filter((r) => r.title.toLowerCase().includes(filter.toLowerCase()));
 
   const paginated = filtered.slice((page - 1) * itemsPerPage, page * itemsPerPage);
@@ -174,11 +182,23 @@ const GalleryView: React.FC<{
           className="filter-bar"
         />
 
-        <label>Filter: </label>
-        <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-          <option value="image">Images</option>
-          <option value="video">Videos</option>
-        </select>
+        <label style={{ marginLeft: 8 }}>Media Types:</label>
+        <label>
+          <input
+            type="checkbox"
+            checked={filterTypes.image}
+            onChange={() => setFilterTypes((prev) => ({ ...prev, image: !prev.image }))}
+          />{" "}
+          Images
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={filterTypes.video}
+            onChange={() => setFilterTypes((prev) => ({ ...prev, video: !prev.video }))}
+          />{" "}
+          Videos
+        </label>
       </div>
 
       <div className="gallery">
