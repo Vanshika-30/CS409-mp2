@@ -1,4 +1,3 @@
-/* Space-inspired minimal theme */
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
@@ -181,7 +180,6 @@ button:hover {
   padding: 0.5rem 1rem;
 }
 
-/* Slightly larger buttons on mobile */
 @media (max-width: 600px) {
   .detail-img {
     width: 90%;

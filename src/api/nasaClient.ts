@@ -3,19 +3,11 @@ import { SearchResponse, AssetResponse } from "./nasaTypes";
 
 class NasaClient {
   private imagesClient: ReturnType<typeof axios.create>;
-  private apodClient: ReturnType<typeof axios.create>;
-  private apiKey: string;
 
-  constructor(apiKey: string = process.env.NASA_API_KEY || "DEMO_KEY") {
-    this.apiKey = apiKey;
+  constructor() {
 
     this.imagesClient = axios.create({
       baseURL: "https://images-api.nasa.gov/",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    this.apodClient = axios.create({
-      baseURL: "https://api.nasa.gov/planetary/",
       headers: { "Content-Type": "application/json" },
     });
   }
